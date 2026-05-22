@@ -24,6 +24,7 @@ void cambiarcalificacion();
 // global variables
 int ID_ROW;
 bool valid;
+bool Student = false;
 
 // initialize both sets of arrays
 char data[ROW][COL][WORD_LENGTH] = {
@@ -84,13 +85,17 @@ char ID[WORD_LENGTH];
 
 int main() {
     PrintArrays();
-    GetValidID();
+    do {
+        GetValidID();
+        CheckStudent();
+    } while (Student == false);
+
     GetGrades();
     cambiarcalificacion();
 
-    // esto fue para probar que cogiera la fila correcta lol
+    /* esto fue para probar que cogiera la fila correcta lol
     printf("\n");
-    printf("Se encuentra en la fila %d de la tabla", ID_ROW );
+    printf("Se encuentra en la fila %d de la tabla", ID_ROW ); */
 
     PrintArrays();
     /* recuerda que luego de obtener las calificaciones se
@@ -98,7 +103,7 @@ int main() {
 }
 
 void PrintArrays() {
-    int i, j, k, l;
+    int i, j, l;
 
     // print the WHOLE first row of both the char and integer data
     for (i = 0; i < ROW; i++) {
@@ -128,12 +133,30 @@ void GetValidID() {
         if (strcmp(ID, data[ID_ROW][ID_COL]) == 0) {
             valid = true;
             printf("Matricula Validada, le pertenece a %s %s", data[ID_ROW][ID_COL+1], data[ID_ROW][ID_COL+2]);
+            printf("\n");
         }
         if (valid == true) {
             break;
         }
     }
     }while (!valid);
+}
+
+void CheckStudent() {
+    int check;
+    bool ValidOp = false;
+
+    do{
+    printf("Desea agregar o modificar la calificacion de %s %s? [1] si [2] volver hacia atras \n",
+        data[ID_ROW][ID_COL+1], data[ID_ROW][ID_COL+2]);
+    scanf("%d", &check);
+    switch (check) {
+        case 1: Student = true; ValidOp = true; break;
+        case 2: Student = false; ValidOp = true; break;
+        default: printf("Opcion invalida \n"); break;
+    }
+    } while (ValidOp == false);
+
 }
 
 void GetGrades() {
@@ -262,4 +285,4 @@ void modificarlista(int opc)
 
 //sprintf(lista[opc][3], "%d", disponible);
 //Use strcpy (or better, strncpy) when you need to copy a plain string from one location to another without modification. It is generally faster because it has less overhead than a formatting function.
-// Use sprintf (or better, snprintf) when you need to format a string—for example, by combining text with integers or other variables into a single buffer.
+// Use sprintf (or better, snprintf) when you need to format a string—for example, by combining text with integers or other variables into a single buffer
