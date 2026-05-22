@@ -8,7 +8,9 @@
 void PrintArrays();
 void GetValidID();
 void GetGrades();
-void CheckStudent();
+void modificarlista(int opc);
+void calcularcalif(int grade_parcial1, int grade_parcial2, int grade_practicas, int grade_examen_final);
+void cambiarcalificacion();
 
 
 // make the array size a constant
@@ -89,6 +91,7 @@ int main() {
     } while (Student == false);
 
     GetGrades();
+    cambiarcalificacion();
 
     /* esto fue para probar que cogiera la fila correcta lol
     printf("\n");
@@ -157,9 +160,8 @@ void CheckStudent() {
 }
 
 void GetGrades() {
-    int grade_parcial1 = 0,grade_parcial2 = 0, parcial_total = 0,
-    grade_practicas = 0, grade_examen_final = 0, calif_final = 0;
-
+    int grade_parcial1 = 0,grade_parcial2 = 0, grade_practicas = 0, grade_examen_final = 0;
+    
     do {
         printf("\nIngrese la calificacion del Parcial 1 (0-10): "); 
         scanf("%d" , &grade_parcial1);
@@ -193,6 +195,13 @@ void GetGrades() {
             printf("Calificacion no valida, debe ser de 0 a 30\n");
         }
     } while (grade_examen_final < 0 || grade_examen_final > 30);
+
+    calcularcalif(grade_parcial1, grade_parcial2, grade_practicas, grade_examen_final);
+
+}
+
+void calcularcalif(int grade_parcial1, int grade_parcial2, int grade_practicas, int grade_examen_final) {
+    int parcial_total = 0, calif_final = 0;
 
     parcial_total = grade_parcial1 + grade_parcial2;
     calif_final = parcial_total + grade_practicas + grade_examen_final;
@@ -233,6 +242,46 @@ void GetGrades() {
      *
     */
 }
+
+void cambiarcalificacion() {
+    // esta funcion es para cambiar la calificacion de un estudiante, se le pide al usuario que ingrese la matricula del estudiante, se valida que exista, y luego se le pide que ingrese la nueva calificacion, se valida que sea correcta, y se actualiza el array con la nueva calificacion
+    GetValidID();
+    int opc;
+    do {
+    opc = 0;
+    printf("Que busca cambiar? \n1. Parcial 1 \n2. Parcial 2 \n3. Practicas \n4. Examen Final \n5.Salir \n"); scanf("%d", &opc);
+    modificarlista(opc);
+    PrintArrays();
+    } while (opc != 5 || opc < 1 || opc > 5);
+}
+
+
+void modificarlista(int opc)
+{
+  int grade_parcial1 = 0, grade_parcial2 = 0, grade_practicas = 0, grade_examen_final = 0, calif_final = 0, reemplazo = 0;
+  grade_parcial1 = (int) strtol(notas[ID_ROW][0], NULL, 10);
+  grade_parcial2 = (int) strtol(notas[ID_ROW][1], NULL, 10);
+  grade_practicas = (int) strtol(notas[ID_ROW][2], NULL, 10);
+  grade_examen_final = (int) strtol(notas[ID_ROW][3], NULL, 10);
+
+  printf("Inserta nuevo valor: ");
+  scanf("%d", &reemplazo);
+
+  switch(opc) {
+    case 1:
+        grade_parcial1 = reemplazo; break;
+    case 2:
+        grade_parcial2 = reemplazo; break;
+    case 3:
+        grade_practicas = reemplazo; break;
+    case 4:
+        grade_examen_final = reemplazo; break;
+    default:break;
+  }
+
+  calcularcalif(grade_parcial1,grade_parcial2,grade_practicas,grade_examen_final);
+}
+
 
 //sprintf(lista[opc][3], "%d", disponible);
 //Use strcpy (or better, strncpy) when you need to copy a plain string from one location to another without modification. It is generally faster because it has less overhead than a formatting function.
