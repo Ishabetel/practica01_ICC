@@ -50,30 +50,30 @@ char data[ROW][COL][WORD_LENGTH] = {
 
 };
 
-int Notas [ROW][COL_NUM] = {
+char notas [ROW][COL_NUM][WORD_LENGTH] = {
 
-    {1000, 2000, 3000, 4000, 5000},
+    {"Parcial 1y2", "Practicas Total", "Examen Final", "Calificacion Total"},
 
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0},
-    {0,    0,    0,    0,    0}
+    {"0",    "0",    "0",    "0"},   
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0"},    
 
 };
 
@@ -82,11 +82,13 @@ char ID[WORD_LENGTH];
 int main() {
     PrintArrays();
     GetValidID();
+    GetGrades();
 
     // esto fue para probar que cogiera la fila correcta lol
     printf("\n");
     printf("Se encuentra en la fila %d de la tabla", ID_ROW );
 
+    PrintArrays();
     /* recuerda que luego de obtener las calificaciones se
        deben desplegar los arrays de nuevo */
 }
@@ -97,13 +99,11 @@ void PrintArrays() {
     // print the WHOLE first row of both the char and integer data
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COL; j++) {
-            for (k = 0; k < WORD_LENGTH; k++) {
-                printf("%c", data[i][j][k]);
-            }
+            printf("%s", data[i][j]); //usar "%s" porque es un char array, no un int, evitando errores
             printf("  ");
         }
         for (l = 0; l < COL_NUM; l++) {
-            printf("%d", Notas[i][l]);
+           printf("%s", notas[i][l]);
             printf(" ");
         }
         printf("\n");
@@ -133,6 +133,64 @@ void GetValidID() {
 }
 
 void GetGrades() {
+    int grade_parcial1 = 0,grade_parcial2 = 0, parcial_total = 0, grade_practicas = 0, grade_examen_final = 0, calif_final = 0;
+
+    do {
+        printf("\nIngrese la calificacion del Parcial 1 (0-10): "); 
+        scanf("%d" , &grade_parcial1);
+        
+        if (grade_parcial1 < 0 || grade_parcial1 > 10) {
+            printf("Calificacion no valida, debe ser de 0 a 10\n");
+        }
+    } while (grade_parcial1 < 0 || grade_parcial1 > 10);
+    do {
+        printf("\nIngrese la calificacion del Parcial 2 (0-10): "); 
+        scanf("%d" , &grade_parcial2);
+        
+        if (grade_parcial2 < 0 || grade_parcial2 > 10) {
+            printf("Calificacion no valida, debe ser de 0 a 10\n");
+        }
+    } while (grade_parcial2 < 0 || grade_parcial2 > 10);
+    do {
+        printf("\nIngrese las calificaciones de las practicas (0-30): "); 
+        scanf("%d" , &grade_practicas);
+        
+        if (grade_practicas < 0 || grade_practicas > 30) {
+            printf("Calificacion no valida, debe ser de 0 a 30\n");
+        }
+    } while (grade_practicas < 0 || grade_practicas > 30);
+
+    do {
+        printf("\nIngrese la calificacion del Examen Final (0-30): "); 
+        scanf("%d" , &grade_examen_final);
+        
+        if (grade_examen_final < 0 || grade_examen_final > 30) {
+            printf("Calificacion no valida, debe ser de 0 a 30\n");
+        }
+    } while (grade_examen_final < 0 || grade_examen_final > 30);
+
+    parcial_total = grade_parcial1 + grade_parcial2;
+    calif_final = parcial_total + grade_practicas + grade_examen_final;
+
+    sprintf(notas[ID_ROW][0], "%d", parcial_total);
+    sprintf(notas[ID_ROW][1], "%d", grade_practicas);
+    sprintf(notas[ID_ROW][2], "%d", grade_examen_final);
+    sprintf(notas[ID_ROW][3], "%d", calif_final);
+
+
+    switch(calif_final) {
+        case 90 ... 100:
+            strcpy(data[ID_ROW][10], "A");break;
+        case 80 ... 89:
+            strcpy(data[ID_ROW][10], "B");break;
+        case 70 ... 79:
+            strcpy(data[ID_ROW][10], "C");break;
+        case 60 ... 69:
+            strcpy(data[ID_ROW][10], "D");break;
+        default:
+            strcpy(data[ID_ROW][10], "F"); break;
+    }
+
     /* Aqui se pedira el input del usuario para pedir la
      * calificacion 1, 2, 3 y 4 verificando que sean validas segun lo que dijo
      * el profe en el documento
@@ -150,3 +208,7 @@ void GetGrades() {
      *
     */
 }
+
+//sprintf(lista[opc][3], "%d", disponible);
+//Use strcpy (or better, strncpy) when you need to copy a plain string from one location to another without modification. It is generally faster because it has less overhead than a formatting function.
+// Use sprintf (or better, snprintf) when you need to format a string—for example, by combining text with integers or other variables into a single buffer.
