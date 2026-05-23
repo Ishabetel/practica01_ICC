@@ -250,8 +250,14 @@ void cambiarcalificacion() {
     do {
     opc = 0;
     printf("Que busca cambiar? \n1. Parcial 1 \n2. Parcial 2 \n3. Practicas \n4. Examen Final \n5.Salir \n"); scanf("%d", &opc);
+    if (opc >= 1 && opc < 5) {
     modificarlista(opc);
-    PrintArrays();
+    PrintArrays();}
+    else if (opc == 5) {
+        printf("Saliendo del programa... \n");
+    }
+    else{
+        printf("Opcion no valida, intente de nuevo \n");}
     } while (opc != 5 || opc < 1 || opc > 5);
 }
 
