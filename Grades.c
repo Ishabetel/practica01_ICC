@@ -11,6 +11,7 @@ void GetGrades();
 void modificarlista(int opc);
 void calcularcalif(int grade_parcial1, int grade_parcial2, int grade_practicas, int grade_examen_final);
 void cambiarcalificacion();
+void CheckStudent();
 
 
 // make the array size a constant
@@ -56,28 +57,23 @@ char data[ROW][COL][WORD_LENGTH] = {
 
 char notas [ROW][COL_NUM][WORD_LENGTH] = {
 
-    {"Parcial 1y2", "Practicas Total", "Examen Final", "Calificacion Total"},
+    {"Parcial 1", "Parcial 2", "Practicas Total", "Examen Final", "Calificacion Total"},
 
-    {"0",    "0",    "0",    "0"},   
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
-    {"0",    "0",    "0",    "0"},    
+    {"0",    "0",    "0",    "0", "0"},   
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
+    {"0",    "0",    "0",    "0", "0"},    
 
 };
 
@@ -89,15 +85,18 @@ int main() {
         GetValidID();
         CheckStudent();
     } while (Student == false);
-
+    
+    PrintArrays();
+    
     GetGrades();
+    
+    GetValidID();
     cambiarcalificacion();
 
     /* esto fue para probar que cogiera la fila correcta lol
     printf("\n");
     printf("Se encuentra en la fila %d de la tabla", ID_ROW ); */
 
-    PrintArrays();
     /* recuerda que luego de obtener las calificaciones se
        deben desplegar los arrays de nuevo */
 }
@@ -163,21 +162,21 @@ void GetGrades() {
     int grade_parcial1 = 0,grade_parcial2 = 0, grade_practicas = 0, grade_examen_final = 0;
     
     do {
-        printf("\nIngrese la calificacion del Parcial 1 (0-10): "); 
+        printf("\nIngrese la calificacion del Parcial 1 (0-20): "); 
         scanf("%d" , &grade_parcial1);
         
-        if (grade_parcial1 < 0 || grade_parcial1 > 10) {
-            printf("Calificacion no valida, debe ser de 0 a 10\n");
+        if (grade_parcial1 < 0 || grade_parcial1 > 20) {
+            printf("Calificacion no valida, debe ser de 0 a 20\n");
         }
-    } while (grade_parcial1 < 0 || grade_parcial1 > 10);
+    } while (grade_parcial1 < 0 || grade_parcial1 > 20);
     do {
-        printf("\nIngrese la calificacion del Parcial 2 (0-10): "); 
+        printf("\nIngrese la calificacion del Parcial 2 (0-20): "); 
         scanf("%d" , &grade_parcial2);
         
-        if (grade_parcial2 < 0 || grade_parcial2 > 10) {
-            printf("Calificacion no valida, debe ser de 0 a 10\n");
+        if (grade_parcial2 < 0 || grade_parcial2 > 20) {
+            printf("Calificacion no valida, debe ser de 0 a 20\n");
         }
-    } while (grade_parcial2 < 0 || grade_parcial2 > 10);
+    } while (grade_parcial2 < 0 || grade_parcial2 > 20);
     do {
         printf("\nIngrese las calificaciones de las practicas (0-30): "); 
         scanf("%d" , &grade_practicas);
@@ -206,10 +205,11 @@ void calcularcalif(int grade_parcial1, int grade_parcial2, int grade_practicas, 
     parcial_total = grade_parcial1 + grade_parcial2;
     calif_final = parcial_total + grade_practicas + grade_examen_final;
 
-    sprintf(notas[ID_ROW][0], "%d", parcial_total);
-    sprintf(notas[ID_ROW][1], "%d", grade_practicas);
-    sprintf(notas[ID_ROW][2], "%d", grade_examen_final);
-    sprintf(notas[ID_ROW][3], "%d", calif_final);
+    sprintf(notas[ID_ROW][0], "%d", grade_parcial1);
+    sprintf(notas[ID_ROW][1], "%d", grade_parcial2);
+    sprintf(notas[ID_ROW][2], "%d", grade_practicas);
+    sprintf(notas[ID_ROW][3], "%d", grade_examen_final);
+    sprintf(notas[ID_ROW][4], "%d", calif_final);
 
 
     switch(calif_final) {
@@ -245,7 +245,7 @@ void calcularcalif(int grade_parcial1, int grade_parcial2, int grade_practicas, 
 
 void cambiarcalificacion() {
     // esta funcion es para cambiar la calificacion de un estudiante, se le pide al usuario que ingrese la matricula del estudiante, se valida que exista, y luego se le pide que ingrese la nueva calificacion, se valida que sea correcta, y se actualiza el array con la nueva calificacion
-    GetValidID();
+    //GetValidID();
     int opc;
     do {
     opc = 0;
