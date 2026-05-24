@@ -1,4 +1,7 @@
-// Created by SAMILKA AI
+// Creado por el grupo SAMILKA AI *si profe le pusimos ese nombre*
+// Este codigo fue creado con sangre, sudor y lagrimas de Andrey e Ishabetel
+// Cada una de las lineas escritas en el siguiente programa encapsula el trabajo
+// esclavizado de sus creadores. Necesitamos tocar pasto ASAP.
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -84,6 +87,7 @@ int main() {
 
     /* PrintArrays -> GetValidID -> Checkstudent -> Getgrades -> (1) New student?
      * (2) Modify? (3) exit? -> (1) GetvalidID -> check student -> check grades. */
+    char Sec[10];
     int selection;
 
     printf("\n");
@@ -96,24 +100,26 @@ int main() {
 
 
     do {
-        printf("Que accion desea realizar? [1] Agregar nuevo estudiante "
+        printf("Que accion desea realizar? [1] Agregar nueva calificacion "
        "[2] Cambiar calificacion [3] Salir del programa\n");
 
-        scanf("%d", &selection);
+        // verify that the input is a number so the code doesn't EXPLODE
+        scanf("%s", &Sec);
+        if (isdigit(Sec[0]) && Sec[1] == '\0') {
+            selection = atoi(Sec);
             switch (selection) {
-        case 1:
-            do {
-                GetValidID();
-                CheckStudent();
-            } while (Student == false);
-            GetGrades();
-            PrintArrays();
+                case 1:
+                    do {
+                        GetValidID();
+                        CheckStudent();
+                    } while (Student == false);
+                    GetGrades();
+                    PrintArrays();
                     Student = false;
-            break;
+                    break;
 
-        case 2:
-                    
-                printf("Se selecciono cambio de calificacion \n");
+                case 2:
+                    printf("Se selecciono cambio de calificacion \n");
                     do {
                         GetValidID();
                         CheckStudent();
@@ -121,22 +127,22 @@ int main() {
                     cambiarcalificacion();
                     PrintArrays();
                     Student = false;
-            break;
+                    break;
 
-        case 3: system("clear"); printf(" Saliendo del Programa... "); break;
+                case 3: system("cls"); printf(" Saliendo del Programa... "); break;
 
-        default:
-            printf("Opcion invalida. \n");
-    }
+                default:
+                    printf("Opcion invalida. \n");
+            }
+        } else printf("Opcion invalida. \n");
+
     } while (selection != 3);
-
-
 
 }
 
 void PrintArrays() {
     int i, j, l;
-    system("clear");
+    // system("cls");
     // print the WHOLE first row of both the char and integer data
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COL; j++) {
@@ -215,10 +221,10 @@ void GetGrades() {
         printf("\nIngrese la calificacion del Parcial 1 (0-20): ");
 
         // solo escaneo dos espacios del array
-        scanf("%2s", grade_parcial1);
+        scanf("%s", grade_parcial1);
 
         // verificar que todos los caracteres sean digitos menos el nulo
-        for (int i = 0; grade_parcial1[i] != '\0'; i++) {
+        for (int i = 0; grade_parcial1[i] != '\0' && i < 2; i++) {
 
             if (!isdigit(grade_parcial1[i])) {
                 Check1 = false;
@@ -251,10 +257,10 @@ void GetGrades() {
         printf("\nIngrese la calificacion del Parcial 2 (0-20): ");
 
         // solo escaneo dos espacios del array
-        scanf("%2s", grade_parcial2);
+        scanf("%s", grade_parcial2);
 
         // verificar que todos los caracteres sean digitos menos el nulo
-        for (int i = 0; grade_parcial2[i] != '\0'; i++) {
+        for (int i = 0; grade_parcial2[i] != '\0' && i < 2; i++) {
 
             if (!isdigit(grade_parcial2[i])) {
                 Check2 = false;
@@ -282,10 +288,10 @@ void GetGrades() {
         printf("\nIngrese la calificacion de las Practicas (0-30): ");
 
         // solo escaneo dos espacios del array
-        scanf("%2s", grade_practicas);
+        scanf("%s", grade_practicas);
 
         // verificar que todos los caracteres sean digitos menos el nulo
-        for (int i = 0; grade_practicas[i] != '\0'; i++) {
+        for (int i = 0; grade_practicas[i] != '\0' && i < 2; i++) {
 
             if (!isdigit(grade_practicas[i])) {
                 Check3 = false;
@@ -314,10 +320,10 @@ void GetGrades() {
         printf("\nIngrese la calificacion del Examen final (0-30): ");
 
         // solo escaneo dos espacios del array
-        scanf("%2s", grade_examen_final);
+        scanf("%s", grade_examen_final);
 
         // verificar que todos los caracteres sean digitos menos el nulo
-        for (int i = 0; grade_examen_final[i] != '\0'; i++) {
+        for (int i = 0; grade_examen_final[i] != '\0' && i < 2; i++) {
 
             if (!isdigit(grade_examen_final[i])) {
                 Check4 = false;
@@ -424,10 +430,10 @@ void modificarlista(int opc)
         printf("Inserta nuevo valor: ");
 
         // solo escaneo dos espacios del array
-        scanf("%2s", reemplazo);
+        scanf("%s", reemplazo);
 
         // verificar que todos los caracteres sean digitos menos el nulo
-        for (int i = 0; reemplazo[i] != '\0'; i++) {
+        for (int i = 0; reemplazo[i] != '\0' && i < 2; i++) {
 
             if (!isdigit(reemplazo[i])) {
                 CheckA = false;
