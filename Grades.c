@@ -433,7 +433,7 @@ void modificarlista(int opc)
         scanf("%s", reemplazo);
 
         // verificar que todos los caracteres sean digitos menos el nulo
-        for (int i = 0; reemplazo[i] != '\0' || i < 2; i++) {
+        for (int i = 0; reemplazo[i] != '\0' && i < 2; i++) {
 
             if (!isdigit(reemplazo[i])) {
                 CheckA = false;
