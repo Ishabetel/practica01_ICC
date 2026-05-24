@@ -112,7 +112,8 @@ int main() {
             break;
 
         case 2:
-                    printf("Se selecciono cambio de calificacion \n");
+                    
+                printf("Se selecciono cambio de calificacion \n");
                     do {
                         GetValidID();
                         CheckStudent();
@@ -122,7 +123,7 @@ int main() {
                     Student = false;
             break;
 
-        case 3: printf(" Saliendo del Programa... "); break;
+        case 3: system("clear"); printf(" Saliendo del Programa... "); break;
 
         default:
             printf("Opcion invalida. \n");
@@ -135,7 +136,7 @@ int main() {
 
 void PrintArrays() {
     int i, j, l;
-
+    system("clear");
     // print the WHOLE first row of both the char and integer data
     for (i = 0; i < ROW; i++) {
         for (j = 0; j < COL; j++) {
@@ -339,7 +340,7 @@ void GetGrades() {
 
     } while (!Check4);
 
-    cambiarcalificacion(P1, P2, Prac, EX);
+    calcularcalif(P1,P2,Prac,EX);
 
 }
 
@@ -410,26 +411,65 @@ void cambiarcalificacion() {
 
 void modificarlista(int opc)
 {
-  int grade_parcial1 = 0, grade_parcial2 = 0, grade_practicas = 0, grade_examen_final = 0, calif_final = 0, reemplazo = 0;
+  int grade_parcial1 = 0, grade_parcial2 = 0, grade_practicas = 0, grade_examen_final = 0, calif_final = 0; int rem = 0;
   grade_parcial1 = (int) strtol(notas[ID_ROW][0], NULL, 10);
   grade_parcial2 = (int) strtol(notas[ID_ROW][1], NULL, 10);
   grade_practicas = (int) strtol(notas[ID_ROW][2], NULL, 10);
   grade_examen_final = (int) strtol(notas[ID_ROW][3], NULL, 10);
 
-  printf("Inserta nuevo valor: ");
-  scanf("%d", &reemplazo);
+  bool CheckA, Check1, Check2, Check3, Check4;
+  char reemplazo[3];
+  do{
+  CheckA = true;
+        printf("Inserta nuevo valor: ");
 
+        // solo escaneo dos espacios del array
+        scanf("%2s", reemplazo);
+
+        // verificar que todos los caracteres sean digitos menos el nulo
+        for (int i = 0; reemplazo[i] != '\0'; i++) {
+
+            if (!isdigit(reemplazo[i])) {
+                CheckA = false;
+            }
+        }
+        if (CheckA) {
+            // convierto a int
+            rem = atoi(reemplazo);
+        }
+        else {
+            printf("Debe ingresar solo numeros\n"); continue;
+        }
+        
   switch(opc) {
     case 1:
-        grade_parcial1 = reemplazo; break;
+        if (rem < 0 || rem > 20) {
+                printf("Calificacion no valida\n");
+                CheckA = false;
+                continue;} //continue = skip to next iteration of loop (skip button)
+        else{grade_parcial1 = rem; break;}
     case 2:
-        grade_parcial2 = reemplazo; break;
+        if (rem < 0 || rem > 20) {
+                printf("Calificacion no valida\n");
+                CheckA = false;
+                continue;}
+        else{grade_parcial2 = rem; break;}
     case 3:
-        grade_practicas = reemplazo; break;
+        if (rem < 0 || rem > 30) {
+                printf("Calificacion no valida\n");
+                CheckA = false;
+                continue;}    
+        else{grade_practicas = rem; break;}
     case 4:
-        grade_examen_final = reemplazo; break;
+        if (rem < 0 || rem > 30) {
+                printf("Calificacion no valida\n");
+                CheckA = false;
+                continue;}
+        else{grade_examen_final = rem; break;}
     default:break;
   }
+
+  } while (!CheckA);
 
   calcularcalif(grade_parcial1,grade_parcial2,grade_practicas,grade_examen_final);
 }
