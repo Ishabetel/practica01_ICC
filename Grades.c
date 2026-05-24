@@ -1,4 +1,5 @@
 // Created by SAMILKA AI
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,25 +81,56 @@ char notas [ROW][COL_NUM][WORD_LENGTH] = {
 char ID[WORD_LENGTH];
 
 int main() {
-    PrintArrays();
-    do {
-        GetValidID();
-        CheckStudent();
-    } while (Student == false);
-    
-    PrintArrays();
-    
-    GetGrades();
-    
-    GetValidID();
-    cambiarcalificacion();
 
-    /* esto fue para probar que cogiera la fila correcta lol
+    /* PrintArrays -> GetValidID -> Checkstudent -> Getgrades -> (1) New student?
+     * (2) Modify? (3) exit? -> (1) GetvalidID -> check student -> check grades. */
+    int selection;
+
     printf("\n");
-    printf("Se encuentra en la fila %d de la tabla", ID_ROW ); */
+    printf("\n");
+    printf("                      ************ BIENVENIDO AL REGISTRO DE CALIFICACIONES *****************                            ");
+    printf("\n");
+    printf("\n");
 
-    /* recuerda que luego de obtener las calificaciones se
-       deben desplegar los arrays de nuevo */
+    PrintArrays();
+
+
+    do {
+        printf("Que accion desea realizar? [1] Agregar nuevo estudiante "
+       "[2] Cambiar calificacion [3] Salir del programa\n");
+
+        scanf("%d", &selection);
+            switch (selection) {
+        case 1:
+            do {
+                GetValidID();
+                CheckStudent();
+            } while (Student == false);
+            GetGrades();
+            PrintArrays();
+                    Student = false;
+            break;
+
+        case 2:
+                    printf("Se selecciono cambio de calificacion \n");
+                    do {
+                        GetValidID();
+                        CheckStudent();
+                    } while (Student == false);
+                    cambiarcalificacion();
+                    PrintArrays();
+                    Student = false;
+            break;
+
+        case 3: printf(" Saliendo del Programa... "); break;
+
+        default:
+            printf("Opcion invalida. \n");
+    }
+    } while (selection != 3);
+
+
+
 }
 
 void PrintArrays() {
@@ -129,6 +161,12 @@ void GetValidID() {
     thing*/
     ID[strcspn(ID, "\n")] = '\0';
     for (ID_ROW = 0; ID_ROW < ROW; ID_ROW++) {
+        if (ID[0] == ' ') {
+            printf("Usage error: Debe ingresar la matricula sin"
+                   " espacios en blanco al inicio o final.\n");
+            printf("\n");
+            break;
+        }
         if (strcmp(ID, data[ID_ROW][ID_COL]) == 0) {
             valid = true;
             printf("Matricula Validada, le pertenece a %s %s", data[ID_ROW][ID_COL+1], data[ID_ROW][ID_COL+2]);
@@ -159,43 +197,149 @@ void CheckStudent() {
 }
 
 void GetGrades() {
-    int grade_parcial1 = 0,grade_parcial2 = 0, grade_practicas = 0, grade_examen_final = 0;
-    
+    char grade_parcial1[3],
+    grade_parcial2[3],
+    grade_practicas[3],
+    grade_examen_final[3];
+
+    bool Check1, Check2, Check3, Check4;
+
+    int P1, P2, Prac, EX;
+
+    // Consegir nota de practica 1
     do {
-        printf("\nIngrese la calificacion del Parcial 1 (0-20): "); 
-        scanf("%d" , &grade_parcial1);
-        
-        if (grade_parcial1 < 0 || grade_parcial1 > 20) {
-            printf("Calificacion no valida, debe ser de 0 a 20\n");
+
+        Check1 = true;
+
+        printf("\nIngrese la calificacion del Parcial 1 (0-20): ");
+
+        // solo escaneo dos espacios del array
+        scanf("%2s", grade_parcial1);
+
+        // verificar que todos los caracteres sean digitos menos el nulo
+        for (int i = 0; grade_parcial1[i] != '\0'; i++) {
+
+            if (!isdigit(grade_parcial1[i])) {
+                Check1 = false;
+            }
         }
-    } while (grade_parcial1 < 0 || grade_parcial1 > 20);
-    do {
-        printf("\nIngrese la calificacion del Parcial 2 (0-20): "); 
-        scanf("%d" , &grade_parcial2);
-        
-        if (grade_parcial2 < 0 || grade_parcial2 > 20) {
-            printf("Calificacion no valida, debe ser de 0 a 20\n");
+
+
+        if (Check1) {
+
+            // convierto a int
+            P1 = atoi(grade_parcial1);
+
+            if (P1 < 0 || P1 > 20) {
+                printf("Calificacion no valida\n");
+                Check1 = false;
+            }
         }
-    } while (grade_parcial2 < 0 || grade_parcial2 > 20);
-    do {
-        printf("\nIngrese las calificaciones de las practicas (0-30): "); 
-        scanf("%d" , &grade_practicas);
-        
-        if (grade_practicas < 0 || grade_practicas > 30) {
-            printf("Calificacion no valida, debe ser de 0 a 30\n");
+        else {
+            printf("Debe ingresar solo numeros\n");
         }
-    } while (grade_practicas < 0 || grade_practicas > 30);
+
+    } while (!Check1);
+
+    // conseguir nota de practica 2
+
+
 
     do {
-        printf("\nIngrese la calificacion del Examen Final (0-30): "); 
-        scanf("%d" , &grade_examen_final);
-        
-        if (grade_examen_final < 0 || grade_examen_final > 30) {
-            printf("Calificacion no valida, debe ser de 0 a 30\n");
-        }
-    } while (grade_examen_final < 0 || grade_examen_final > 30);
+        Check2 = true;
+        printf("\nIngrese la calificacion del Parcial 2 (0-20): ");
 
-    calcularcalif(grade_parcial1, grade_parcial2, grade_practicas, grade_examen_final);
+        // solo escaneo dos espacios del array
+        scanf("%2s", grade_parcial2);
+
+        // verificar que todos los caracteres sean digitos menos el nulo
+        for (int i = 0; grade_parcial2[i] != '\0'; i++) {
+
+            if (!isdigit(grade_parcial2[i])) {
+                Check2 = false;
+            }
+        }
+
+        if (Check2) {
+
+            // convierto a int
+            P2 = atoi(grade_parcial2);
+
+            if (P2 < 0 || P2 > 20) {
+                printf("Calificacion no valida\n");
+                Check2 = false;
+            }
+        }
+        else {
+            printf("Debe ingresar solo numeros\n");
+        }
+
+    } while (!Check2);
+
+    do {
+        Check3 = true;
+        printf("\nIngrese la calificacion de las Practicas (0-30): ");
+
+        // solo escaneo dos espacios del array
+        scanf("%2s", grade_practicas);
+
+        // verificar que todos los caracteres sean digitos menos el nulo
+        for (int i = 0; grade_practicas[i] != '\0'; i++) {
+
+            if (!isdigit(grade_practicas[i])) {
+                Check3 = false;
+            }
+        }
+
+
+        if (Check3) {
+
+            // convierto a int
+            Prac = atoi(grade_practicas);
+
+            if (Prac < 0 || Prac > 30) {
+                printf("Calificacion no valida\n");
+                Check3 = false;
+            }
+        }
+        else {
+            printf("Debe ingresar solo numeros\n");
+        }
+
+    } while (!Check3);
+
+    do {
+        Check4 = true;
+        printf("\nIngrese la calificacion del Examen final (0-30): ");
+
+        // solo escaneo dos espacios del array
+        scanf("%2s", grade_examen_final);
+
+        // verificar que todos los caracteres sean digitos menos el nulo
+        for (int i = 0; grade_examen_final[i] != '\0'; i++) {
+
+            if (!isdigit(grade_examen_final[i])) {
+                Check4 = false;
+            }
+        }
+
+        if (Check4) {
+
+            // convierto a int
+            EX = atoi(grade_examen_final);
+
+            if (EX < 0 || EX > 30) {
+                printf("Calificacion no valida\n");
+                Check4 = false;
+            }
+        }
+        else {
+            printf("Debe ingresar solo numeros\n");
+        }
+
+    } while (!Check4);
+
+    cambiarcalificacion(P1, P2, Prac, EX);
 
 }
 
@@ -244,17 +388,19 @@ void calcularcalif(int grade_parcial1, int grade_parcial2, int grade_practicas, 
 }
 
 void cambiarcalificacion() {
-    // esta funcion es para cambiar la calificacion de un estudiante, se le pide al usuario que ingrese la matricula del estudiante, se valida que exista, y luego se le pide que ingrese la nueva calificacion, se valida que sea correcta, y se actualiza el array con la nueva calificacion
+    // esta funcion es para cambiar la calificacion de un estudiante, se le pide al usuario que ingrese la matricula del estudiante,
+    // se valida que exista, y luego se le pide que ingrese la nueva calificacion, se valida que sea correcta,
+    // y se actualiza el array con la nueva calificacion
     //GetValidID();
     int opc;
     do {
     opc = 0;
-    printf("Que busca cambiar? \n1. Parcial 1 \n2. Parcial 2 \n3. Practicas \n4. Examen Final \n5.Salir \n"); scanf("%d", &opc);
+    printf("Que busca cambiar? \n1. Parcial 1 \n2. Parcial 2 \n3. Practicas \n4. Examen Final \n5. Menu \n"); scanf("%d", &opc);
     if (opc >= 1 && opc < 5) {
     modificarlista(opc);
     PrintArrays();}
     else if (opc == 5) {
-        printf("Saliendo del programa... \n");
+        printf("Volviendo al inicio... \n");
     }
     else{
         printf("Opcion no valida, intente de nuevo \n");}
