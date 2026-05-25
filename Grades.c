@@ -104,7 +104,7 @@ int main() {
        "[2] Cambiar calificacion [3] Salir del programa\n");
 
         // verify that the input is a number so the code doesn't EXPLODE
-        scanf("%s", &Sec);
+        scanf("%9s", Sec);
         if (isdigit(Sec[0]) && Sec[1] == '\0') {
             selection = atoi(Sec);
             switch (selection) {
@@ -187,17 +187,24 @@ void GetValidID() {
 }
 
 void CheckStudent() {
-    int check;
-    bool ValidOp = false;
-
+        char check[10];
+        int selected = 0;
+        bool ValidOp = false;
     do{
-    printf("Desea agregar o modificar la calificacion de %s %s? [1] si [2] volver hacia atras \n",
-        data[ID_ROW][ID_COL+1], data[ID_ROW][ID_COL+2]);
-    scanf("%d", &check);
-    switch (check) {
+    
+     printf("Desea agregar o modificar la calificacion de %s %s? [1] si [2] volver hacia atras \n",
+     data[ID_ROW][ID_COL+1], data[ID_ROW][ID_COL+2]);
+        scanf("%9s", check);
+        if (isdigit(check[0]) && check[1] == '\0') {
+            selected = (int) strtol(check, NULL, 10);
+        } else {
+            printf("Opcion invalida \n"); ValidOp = false;
+            continue;
+        }
+    switch (selected) {
         case 1: Student = true; ValidOp = true; break;
         case 2: Student = false; ValidOp = true; break;
-        default: printf("Opcion invalida \n"); break;
+        default: ValidOp = false; printf("Opcion invalida \n"); break;
     }
     } while (ValidOp == false);
 
@@ -423,7 +430,7 @@ void modificarlista(int opc)
   grade_practicas = (int) strtol(notas[ID_ROW][2], NULL, 10);
   grade_examen_final = (int) strtol(notas[ID_ROW][3], NULL, 10);
 
-  bool CheckA, Check1, Check2, Check3, Check4;
+  bool CheckA;
   char reemplazo[3];
   do{
   CheckA = true;
