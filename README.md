@@ -1,10 +1,10 @@
 # Usage of Parallel Arrays
 ## Made by isha n' andrey
-###### Small business sales simulation in C
+###### GRADING INTERFACE ON C
 
-**Sales Managment** 
+**Report card record** 
 
-*The function of this project is imitating how a stock system works depending on the amount of sales using parallel arrays and NO STRUCTS*
+*The function of this project is storing the grades of a set list of students and calculating their final score on C with parallel arrays and NO STRUCTS*
 
 [Thought process behind our code](https://www.youtube.com/watch?v=oHg5SJYRHA0)
 
